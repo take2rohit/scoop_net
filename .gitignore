@@ -1,0 +1,8 @@
+/OrigamiData/
+/.ipynb_checkpoints/
+/.vscode/
+/__pycache__/
+/data/
+/dataset_generator/
+/sample_dataset/
+delete.py

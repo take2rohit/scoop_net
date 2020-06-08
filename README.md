@@ -1,5 +1,8 @@
 # Pose Estimation of Origami using Denoising Autoencoders 
 
+This code has been completely written from scratch using PyTorch library.
+A sample of dataset has been already uploaded in folder of [sample_dataset](/home/rohit/projects/autoencoder/)
+
 ## How to use the repo:
 
 1. Install `requirements.txt` by running
@@ -27,6 +30,6 @@ from DAE_dataset_helper import ToTensor,Resize, RandomBackground
 from DAE_model import AugmentedAutoencoder
 ```
 
-## Contributers:
+## Contributers
 
 - Rohit Lal - [WEBSITE](http://take2rohit.github.io/)

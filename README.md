@@ -13,7 +13,7 @@ pip3 install -r requirements.txt
 
 2. Follow the Jupyter notebook **[denoising_ae.ipynb](denoising_ae.ipynb)** for complete code
 3. For loading dataset of origami change the variable `origami_dataset_dir` to the directory containing images of origami.
-4. Similarly change the change the variable `random_background_dir` to the directory containing various background images. A random background will be picked and applied to the dataset as part of image augmentation.
+4. Similarly change the variable `random_background_dir` to the directory containing various background images. A random background will be picked everytime and will be applied to each image of dataset as dataset of image augmentation.
 
 ```python
 origami_dataset_dir = "/home/rohit/Desktop/sample_test"

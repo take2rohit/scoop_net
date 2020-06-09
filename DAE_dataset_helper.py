@@ -15,10 +15,19 @@ import numpy as np,os
 
 class OrigamiDatasetGenerate(Dataset):
 
-    def __init__(self, root_dir, transform=None):
+    def __init__(self, root_dir, inp='Input', out='Output' ,transform=None):
         self.root_dir = root_dir
+        
+        self.inp_dir = inp
+        self.inp_rel_path = os.path.join(root_dir,inp)
+        
+        self.out_dir = out
+        self.out_rel_path = os.path.join(root_dir,out)
+
         self.transform = transform
-        self.all_image_filenames = [f for f in os.listdir(root_dir) if os.path.isfile(os.path.join(root_dir, f))]
+
+        self.all_image_filenames = [f for f in os.listdir(self.inp_rel_path) \
+         if os.path.isfile(os.path.join(self.inp_rel_path, f))]
 
     def __len__(self):
         return len(self.all_image_filenames)
@@ -56,12 +65,16 @@ class OrigamiDatasetGenerate(Dataset):
         if torch.is_tensor(idx):
             idx = idx.tolist()
 
-        img_path = os.path.join(self.root_dir,
+        inp_img_path = os.path.join(self.inp_rel_path,
                                 self.all_image_filenames[idx])
-        image = plt.imread(img_path)
+
+        out_img_path = os.path.join(self.out_rel_path,
+                                self.all_image_filenames[idx])
         
-        augmented = self.image_augmentation(image, noise_typ = "gauss")
-        sample = {'augmented': augmented, 'original': image}
+        inp_img = plt.imread(inp_img_path)       
+        out_img_path = plt.imread(out_img_path)
+        
+        sample = {'augmented': out_img_path, 'original': inp_img}
 
         if self.transform:
             sample = self.transform(sample)

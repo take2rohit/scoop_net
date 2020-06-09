@@ -16,13 +16,29 @@ pip3 install -r requirements.txt
 ```
 
 2. Follow the Jupyter notebook **[denoising_ae.ipynb](denoising_ae.ipynb)** for complete code
-3. For loading dataset of origami change the variable `origami_dataset_dir` to the directory containing images of origami.
-4. Similarly change the variable `random_background_dir` to the directory containing various background images. A random background will be picked everytime and will be applied to each image of dataset as dataset of image augmentation.
-
+3. For loading dataset of origami change the variable `origami_dataset_dir` to the directory containing folders of input and output.
+4. Similarly change the variable `inp` and `out` to the directory containing various images containing Network's input and Output images repsectively.
 ```python
-origami_dataset_dir = "/home/rohit/Desktop/sample_test"
-random_background_dir = '/home/rohit/Desktop/bg_samp'
+origami_dataset_dir = "MarowWithBG"
+inp='Input'
+out='Output'
 ```
+5. Dataset Directory info
+
+```
+    MarowWithBG
+    │
+    ├── Input
+    │   ├── img100_1.png
+    │   ├── img100_2.png
+    │   ├── ....
+    |
+    ├── Output
+    │   ├── img100_1.png
+    │   ├── img100_2.png
+    │   ├──  ....
+```
+
 
 5. There are various helper functions written by me to aid the code. These can be found in file `DAE_dataset_helper.py` and `DAE_model.py`
 

@@ -71,10 +71,10 @@ class OrigamiDatasetGenerate(Dataset):
         out_img_path = os.path.join(self.out_rel_path,
                                 self.all_image_filenames[idx])
         
-        inp_img = plt.imread(inp_img_path)       
+        in_img_path = plt.imread(inp_img_path)       
         out_img_path = plt.imread(out_img_path)
         
-        sample = {'augmented': out_img_path, 'original': inp_img}
+        sample = {'augmented': in_img_path, 'original': out_img_path}
 
         if self.transform:
             sample = self.transform(sample)

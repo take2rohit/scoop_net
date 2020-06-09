@@ -26,14 +26,14 @@ out='Output'
 5. Dataset Directory info
 
 ```
-    MarowWithBG
+    s_test
     │
-    ├── Input
+    ├── in
     │   ├── img100_1.png
     │   ├── img100_2.png
     │   ├── ....
     |
-    ├── Output
+    ├── out
     │   ├── img100_1.png
     │   ├── img100_2.png
     │   ├──  ....

@@ -35,7 +35,7 @@ class AugmentedAutoencoder(nn.Module):
         
         
         x = torch.flatten(x, 1) # N x (512*8*8)       
-        encoding = self.fc1(x) # N x 128        
+        encoding = self.fc1(x) # N x 128
         x = self.fc2(encoding) # N x (512*8*8)
         x = x.view(-1,512,8,8)
 
@@ -53,6 +53,24 @@ class AugmentedAutoencoder(nn.Module):
         x = F.sigmoid(x)
 
         return x
+    
+    def encoder_op(self,x):
+        x = self.en_conv1(x) # N x 128 x 64 x 64
+        x = F.relu(x) 
+        
+        x = self.en_conv2(x) # N x 256 x 32 x 32
+        x = F.relu(x)
+        
+        x = self.en_conv3(x) # N x 256 x 16 x 16
+        x = F.relu(x)
+        
+        x = self.en_conv4(x) # N x 512 x 8 x 8
+        x = F.relu(x)
+        
+        
+        x = torch.flatten(x, 1) # N x (512*8*8)       
+        encoding = self.fc1(x) # N x 128
+        return encoding
 
 class DenoisingAE(nn.Module):
     def __init__(self):

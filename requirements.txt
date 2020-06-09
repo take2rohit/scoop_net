@@ -1,4 +1,5 @@
-torch torchvision
+torch
+torchvision
 opencv-python
 matplotlib
 tqdm

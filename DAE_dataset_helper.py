@@ -202,5 +202,3 @@ class NormalizeValidate(object):
         sample = (sample - min_noisy)/(max_noisy-min_noisy)
         
         return sample
-
-

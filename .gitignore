@@ -6,7 +6,7 @@
 /dataset_generator/
 /sample_dataset/
 delete.py
-/MarowWithBG/s_test/
-/MarowWithBG/s/
+/MarowWithBG
+/MarowWithBG/
 core
 AE.pt

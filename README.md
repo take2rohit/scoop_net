@@ -2,7 +2,7 @@
 
 # Pose Estimation of Origami using Denoising Autoencoders 
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1VeJopZuGmnmk0Z2RQheKYcLWQjHL4cnq?usp=sharing)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1rzP0XMG1iOy508oMFUaFtwf2DK-ImCOx?usp=sharing)
 
 This code has been completely written from scratch using PyTorch library.
 A sample of dataset has been already uploaded in folder of [sample_dataset](/home/rohit/projects/autoencoder/)
@@ -19,14 +19,14 @@ pip3 install -r requirements.txt
 3. For loading dataset of origami change the variable `origami_dataset_dir` to the directory containing folders of input and output.
 4. Similarly change the variable `inp` and `out` to the directory containing various images containing Network's input and Output images repsectively.
 ```python
-origami_dataset_dir = "MarowWithBG"
+origami_dataset_dir = "MarowDataset"
 inp='Input'
 out='Output'
 ```
 5. Dataset Directory info
 
 ```
-    MarowWithBG
+    MarowDataset
     │
     ├── Input
     │   ├── img100_1.png
@@ -53,3 +53,4 @@ from DAE_model import AugmentedAutoencoder
 ## Contributers
 
 - Rohit Lal - [WEBSITE](http://take2rohit.github.io/)
+- Ruphan S

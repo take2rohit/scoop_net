@@ -80,7 +80,7 @@ class OrigamiDatasetGenerate(Dataset):
             sample = self.transform(sample)
 
         return sample
-    
+
 class ToTensor(object):
     """Convert ndarrays in sample to Tensors."""
 
@@ -93,6 +93,7 @@ class ToTensor(object):
         augmented = np.transpose(augmented, (2, 0, 1))
         return {'original': torch.from_numpy(original).float(),
                 'augmented': torch.from_numpy(augmented).float()}
+
 
 class Grayscale(object):
     """Convert ndarrays in sample to 2D."""
@@ -129,6 +130,7 @@ class Normalize(object):
 
 class RandomBackground(object):
 
+
     def __init__(self, bg_folder):
         self.root_dir = bg_folder
     
@@ -152,3 +154,51 @@ class RandomBackground(object):
         
         new = cv2.cvtColor(new,cv2.COLOR_BGR2RGB)
         return {'original': original/255, 'augmented':new/255 }
+
+class ValidationGenerate(Dataset):
+
+    def __init__(self, root_dir,transform=None):
+        self.root_dir = root_dir
+        self.transform = transform
+        self.all_image_filenames = [f for f in os.listdir(self.root_dir) \
+         if os.path.isfile(os.path.join(self.root_dir, f))]
+
+    def __len__(self):
+        return len(self.all_image_filenames)
+
+    def __getitem__(self, idx):
+        if torch.is_tensor(idx):
+            idx = idx.tolist()
+        inp_img_path = os.path.join(self.root_dir,
+                                self.all_image_filenames[idx])
+        sample = plt.imread(inp_img_path)       
+        if self.transform:
+            sample = self.transform(sample)
+
+        return sample
+
+class ToTensorValidate(object):
+    """Convert ndarrays in sample to Tensors."""
+
+    def __call__(self, sample):
+        sample = np.transpose(sample, (2, 0, 1))
+        return torch.from_numpy(sample)
+
+class ResizeValidate(object):
+    """ndarrays resize."""
+    
+    def __init__(self, size):
+        self.size = size
+        
+    def __call__(self, sample):
+        sample = cv2.resize(sample, dsize=self.size, interpolation=cv2.INTER_CUBIC)
+        return sample
+
+class NormalizeValidate(object):
+    
+    def __call__(self, sample):   
+        
+        min_noisy,max_noisy = np.min(sample),np.max(sample)
+        sample = (sample - min_noisy)/(max_noisy-min_noisy)
+        
+        return sample

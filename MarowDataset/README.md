@@ -8,8 +8,11 @@ Number of InPlaneRotation - 6 (0, 30, 60, 90, 120, 150)
 Input:
 Contains 2400 png images of size 500x500 with table and wall background.
 
-Input:
+Output:
 Contains 2400 png images of size 500x500 with black background.
+
+Test:
+Contains original images captured through camera
 
 Image format:
 img_<Point no>_<Rotation no>

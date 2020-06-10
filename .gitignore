@@ -4,9 +4,7 @@
 /__pycache__/
 /data/
 /dataset_generator/
-/sample_dataset/
 delete.py
-/MarowWithBG/s/
-/MarowWithBG/s_test/
-/MarowWithBG/s.zip
-/MarowWithBG/s_test.zip
+/MarowWithBG/
+core
+AE.pt

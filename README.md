@@ -1,6 +1,6 @@
 # Pose Estimation of Origami using Denoising Autoencoders 
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1rzP0XMG1iOy508oMFUaFtwf2DK-ImCOx?usp=sharing)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/take2rohit/denoising_autoencoder/blob/master/denoising_ae.ipynb)
 
 This code has been completely written from scratch using PyTorch library.
 A sample of dataset has been already uploaded in folder of [sample_dataset](/home/rohit/projects/autoencoder/)

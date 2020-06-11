@@ -49,7 +49,7 @@ class AugmentedAutoencoder(nn.Module):
         x = F.relu(x)
 
         x = self.dc_conv5(x) # N x 3 x 128 x 128
-        x = F.tanh(x)
+
         return x
     
     def encoder_op(self,x):

@@ -29,6 +29,7 @@ train_batch_size = args['train']
 test_batch_size = args['test']
 split_percent = 0.8
 save_model = True
+load_model = True
 saved_pth = 'AE.pt'
 
 origami_dataset_dir = "small_data/s"
@@ -55,13 +56,14 @@ test_loader = DataLoader(test_dataset, batch_size=test_batch_size,
 
 def train(model, device, train_loader, optimizer, epoch,log_interval=10):
     model.train()
+    l2 = nn.MSELoss()
     for batch_idx, sample in enumerate(train_loader):
         data, target = sample['augmented'],sample['original']
        
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
         output = model(data)
-        loss = F.binary_cross_entropy(output, target)
+        loss = l2(output, target)
         loss.backward()
         
         optimizer.step()
@@ -72,22 +74,21 @@ def test(model, device, test_loader):
     model.eval()
     test_loss = 0
     correct = 0
+    l2 = nn.MSELoss()
     with torch.no_grad():
         for c, sample in enumerate(test_loader):
             data, target = sample['augmented'],sample['original']
             data, target = data.to(device), target.to(device)
             output = model(data)
-            test_loss += F.binary_cross_entropy(output,target) # sum up batch loss
+            test_loss += l2(output,target) # sum up batch loss
     test_loss /= max(1,c)
 
     print('\nTest set: Average loss: {:.4f}\n'.format(test_loss))
 
 
-
-
 model = AugmentedAutoencoder().to(device)
 
-if os.path.exists(saved_pth):
+if os.path.exists(saved_pth) and load_model:
     model.load_state_dict(torch.load(saved_pth))
 
 optimizer = optim.Adadelta(model.parameters(), lr=15)

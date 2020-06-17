@@ -7,8 +7,8 @@ class AugmentedAutoencoder(nn.Module):
     def __init__(self):
         super(AugmentedAutoencoder, self).__init__()
         # nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros')
-        self.en_conv1 = nn.Conv2d(3, 512, 5, stride=2, padding=2) 
-        self.en_conv2 = nn.Conv2d(512, 256, 5, stride=2, padding=2)
+        self.en_conv1 = nn.Conv2d(3, 128, 5, stride=2, padding=2) 
+        self.en_conv2 = nn.Conv2d(128, 256, 5, stride=2, padding=2)
         self.en_conv3 = nn.Conv2d(256, 256, 5, stride=2, padding=2)
         self.en_conv4 = nn.Conv2d(256, 512, 5, stride=2, padding=2)
         

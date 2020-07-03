@@ -32,35 +32,6 @@ class OrigamiDatasetGenerate(Dataset):
     def __len__(self):
         return len(self.all_image_filenames)
     
-    def image_augmentation(self, image, noise_typ = "s&p"):
-        if noise_typ == "gauss":
-            row,col,ch= image.shape
-            mean = 0
-            var = 0
-            sigma = var**0.5
-            gauss = np.random.normal(mean,sigma,(row,col,ch))
-            gauss = gauss.reshape(row,col,ch)
-            noisy = image + gauss
-            
-            return noisy
-
-        elif noise_typ == "s&p":
-            row,col,ch = image.shape
-            s_vs_p = 0.1
-            amount = 0.04
-            out = np.copy(image)
-            # Salt mode
-            num_salt = np.ceil(amount * image.size * s_vs_p)
-            coords = [np.random.randint(0, i - 1, int(num_salt))
-                  for i in image.shape]
-            out[coords] = 1
-
-            # Pepper mode
-            num_pepper = np.ceil(amount* image.size * (1. - s_vs_p))
-            coords = [np.random.randint(0, i - 1, int(num_pepper))
-                  for i in image.shape]
-            out[coords] = 0
-            return out    
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
@@ -80,6 +51,45 @@ class OrigamiDatasetGenerate(Dataset):
             sample = self.transform(sample)
 
         return sample
+
+class AddNoise(object):
+    def __init__(self, mean, var, noise_typ = "gauss"):
+        self.noise_typ = noise_typ
+        self.mean = mean 
+        self.var = var
+    
+    def __call__(self, sample):
+        original, augmented = sample['original'], sample['augmented']
+
+        if self.noise_typ == "gauss":
+            row,col,ch= augmented.shape
+            mean = self.mean
+            var = self.var
+            sigma = var**0.5
+            gauss = np.random.normal(mean,sigma,(row,col,ch))
+            gauss = gauss.reshape(row,col,ch)
+            noisy = augmented + gauss
+
+        if self.noise_typ == "s&p":
+            row,col,ch = augmented.shape
+            s_vs_p = self.mean
+            amount = self.var
+            out = np.copy(augmented)
+            # Salt mode
+            num_salt = np.ceil(amount * augmented.size * s_vs_p)
+            coords = [np.random.randint(0, i - 1, int(num_salt))
+                    for i in augmented.shape]
+            out[coords] = 255
+
+            # Pepper mode
+            num_pepper = np.ceil(amount* augmented.size * (1. - s_vs_p))
+            coords = [np.random.randint(0, i - 1, int(num_pepper))
+                    for i in augmented.shape]
+            out[coords] = 0
+            noisy = out
+        
+        return {'original': original,
+                    'augmented': noisy}    
 
 class ToTensor(object):
     """Convert ndarrays in sample to Tensors."""

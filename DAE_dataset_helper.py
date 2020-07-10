@@ -51,9 +51,7 @@ class OrigamiDatasetGenerate(Dataset):
     def __getitem__(self, idx):
 
         idx_org = np.random.randint(0,len(self.orgami_list))
-        idx_bg = np.random.randint(0,len(self.bg_list))
-        print(idx_org, idx_bg)
-        
+        idx_bg = np.random.randint(0,len(self.bg_list))        
         greenScreen_origami_path = os.path.join(self.origami_dir,
                                 self.orgami_list[idx_org])
 
@@ -61,8 +59,6 @@ class OrigamiDatasetGenerate(Dataset):
                                 self.bg_list[idx_bg])
         
         origami_merged, origami_black_bg = self.merge(greenScreen_origami_path,bg_img_path)
-        plt.imshow(origami_merged)
-        plt.show()
         sample = {'augmented': origami_merged, 'original': origami_black_bg}
 
         if self.transform:

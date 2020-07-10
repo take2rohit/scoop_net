@@ -33,6 +33,8 @@ class OrigamiDatasetGenerate(Dataset):
         origami = cv2.imread(origami_loc)
         origami_black_bg = origami.copy()
         background = cv2.imread(background_loc)
+        background = cv2.resize(background, dsize=(origami.shape[0],origami.shape[1]), 
+                                interpolation=cv2.INTER_CUBIC)
         hsv = cv2.cvtColor(origami, cv2.COLOR_BGR2HSV)
         for i in range(origami.shape[0]):
             for j in range(origami.shape[1]):

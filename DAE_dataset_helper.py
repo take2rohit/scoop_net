@@ -15,37 +15,55 @@ import numpy as np,os
 
 class OrigamiDatasetGenerate(Dataset):
 
-    def __init__(self, root_dir, inp='Input', out='Output' ,transform=None):
-        self.root_dir = root_dir
-        
-        self.inp_dir = inp
-        self.inp_rel_path = os.path.join(root_dir,inp)
-        
-        self.out_dir = out
-        self.out_rel_path = os.path.join(root_dir,out)
+    def __init__(self, origami_dir, bg_dir,dataset_size=150 ,transform=None):
 
+        self.bg_dir = bg_dir
+        self.origami_dir = origami_dir
+        self.dataset_size = dataset_size
         self.transform = transform
 
-        self.all_image_filenames = [f for f in os.listdir(self.inp_rel_path) \
-         if os.path.isfile(os.path.join(self.inp_rel_path, f))]
+        self.orgami_list = [f for f in os.listdir(self.origami_dir) \
+         if os.path.isfile(os.path.join(self.origami_dir, f))]
+        
+        self.bg_list = [f for f in os.listdir(self.bg_dir) \
+         if os.path.isfile(os.path.join(self.bg_dir, f))]
+        
+    
+    def merge(self,origami_loc, background_loc):
+        origami = cv2.imread(origami_loc)
+        origami_black_bg = origami.copy()
+        background = cv2.imread(background_loc)
+        hsv = cv2.cvtColor(origami, cv2.COLOR_BGR2HSV)
+        for i in range(origami.shape[0]):
+            for j in range(origami.shape[1]):
+                if (50<hsv[i,j,0]<70 and 50<hsv[i,j,1]<=255 and 50<hsv[i,j,1]<=255) :
+                    origami[i,j] = background[i,j]
+                    origami_black_bg[i,j] = 0 
+
+        origami = cv2.cvtColor(origami, cv2.COLOR_BGR2RGB)
+        origami_black_bg = cv2.cvtColor(origami_black_bg, cv2.COLOR_BGR2RGB)
+        return origami, origami_black_bg
+
 
     def __len__(self):
-        return len(self.all_image_filenames)
+        return self.dataset_size
     
     def __getitem__(self, idx):
-        if torch.is_tensor(idx):
-            idx = idx.tolist()
 
-        inp_img_path = os.path.join(self.inp_rel_path,
-                                self.all_image_filenames[idx])
+        idx_org = np.random.randint(0,len(self.orgami_list))
+        idx_bg = np.random.randint(0,len(self.bg_list))
+        print(idx_org, idx_bg)
+        
+        greenScreen_origami_path = os.path.join(self.origami_dir,
+                                self.orgami_list[idx_org])
 
-        out_img_path = os.path.join(self.out_rel_path,
-                                self.all_image_filenames[idx])
+        bg_img_path = os.path.join(self.bg_dir,
+                                self.bg_list[idx_bg])
         
-        in_img_path = plt.imread(inp_img_path)       
-        out_img_path = plt.imread(out_img_path)
-        
-        sample = {'augmented': in_img_path, 'original': out_img_path}
+        origami_merged, origami_black_bg = self.merge(greenScreen_origami_path,bg_img_path)
+        plt.imshow(origami_merged)
+        plt.show()
+        sample = {'augmented': origami_merged, 'original': origami_black_bg}
 
         if self.transform:
             sample = self.transform(sample)

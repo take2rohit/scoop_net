@@ -82,7 +82,7 @@ class AddNoise(object):
             sigma = var**0.5
             gauss = np.random.normal(mean,sigma,(row,col,ch))
             gauss = gauss.reshape(row,col,ch)
-            noisy = augmented + gauss
+            noisy = noisy = np.clip(augmented + gauss, 0,1)
 
         if self.noise_typ == "s&p":
             row,col,ch = augmented.shape

@@ -53,7 +53,7 @@ class OrigamiDatasetGenerate(Dataset):
     def __getitem__(self, idx):
 
         idx_bg = idx 
-        idx_org = round((idx/len(self.bg_list))*len(self.orgami_list))    
+        idx_org = int((idx/len(self.bg_list))*len(self.orgami_list))    
         greenScreen_origami_path = os.path.join(self.origami_dir,
                                 self.orgami_list[idx_org])
 
